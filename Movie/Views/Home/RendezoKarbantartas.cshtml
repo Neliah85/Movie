@@ -1,23 +1,36 @@
 ﻿<script type="text/javascript">
 
-
-
-
-
-      function rendezoTarol() {
+    function rendezoTarol() {
         let body = {
             "Id": parseInt(document.getElementById("id").textContent),
             "Nev": document.getElementById("nev").value,
             "Nemzetiseg": document.getElementById("nemzetiseg").value,
             "SzulDatum": document.getElementById("szuldatum").value
         };
-        let url = "https://localhost:7050/api/rendezo";
-        if (body.Id != 0) {
-            axios.put(url, body).then((response) => {
-                alert(response.data);
 
-    window.addEventListener('load', function () {
-    });
+        let url = "https://localhost:7050/api/rendezo";
+        var formData = new FormData();
+            formData.append("Json", JSON.stringify(body));
+        if (body.Id != 0) {
+                axios.put(url, formData).then((response) => {
+                    alert(response.data);
+                    window.location.replace("../RendezoDTO");
+                }).catch((error) => {
+                    alert(error);
+                    window.location.replace("../RendezoDTO");
+                });
+            }
+        else {
+                axios.post(url, formData).then((response) => {
+                    alert(response.data);
+                    window.location.replace("../RendezoDTO");
+                }).catch((error) => {
+                    alert(error);
+                    window.location.replace("../RendezoDTO");
+                });
+            }
+        }
+    
 
 </script>
 
@@ -26,11 +39,11 @@
 }
 <h1 style="text-align:center">@ViewData["Title"]</h1>
 
-
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form onsubmit="rendezoTarol()">
+            <form onsubmit="rendezoTarol(); return false;">
+                <!-- A form nem küldi el alapértelmezetten -->
                 <div class="row">
                     <div class="col-md-4 col-sm-12">
                         <label id="id" hidden>@((ViewBag.Rendezo as Rendezo).Id)</label>

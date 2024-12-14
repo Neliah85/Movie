@@ -37,10 +37,29 @@ namespace Movie.Controllers
             {
                 try
                 {
+                    // Deszerializaljuk a rendezot tartalmazo JSON-t
                     Rendezo rendezo = JsonConvert.DeserializeObject<Rendezo>(Json);
-                    using (var ms = new MemoryStream())
 
-                        return Ok("A rendező adatainak a módosítása sikeresen megtörtént.");
+                    // Megnezzuk, hogy letezik-e a rendezo az adatbazisban az id alapjan
+                    var existingRendezo = await context.Rendezos.FindAsync(rendezo.Id);
+
+                    if (existingRendezo != null)
+                    {
+                        // Frissitjuk a rendezo adatait
+                        existingRendezo.Nev = rendezo.Nev;
+                        existingRendezo.Nemzetiseg = rendezo.Nemzetiseg;
+                        existingRendezo.SzulDatum = rendezo.SzulDatum;
+
+                        // A rendezo frissitese az adatbazisban
+                        context.Rendezos.Update(existingRendezo);
+                        await context.SaveChangesAsync();
+
+                        return Ok("A rendezo adatainak modosítasa sikeresen megtörtént.");
+                    }
+                    else
+                    {
+                        return NotFound("A megadott ID-val nem találtunk rendezőt.");
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -48,6 +67,9 @@ namespace Movie.Controllers
                 }
             }
         }
+
+
+
 
         [HttpPost]
         //http?://localhost:xxxx/api/film
