@@ -6,38 +6,32 @@ namespace Movie.Services
 {
     public class RendezoService
     {
-        // Rendezők listázása
-        public static List<Rendezo> GetRendezos()
+        public static List<Rendezo> GetRendezok()
         {
             using (var context = new MovieContext())
             {
                 try
                 {
-                    var response = context.Rendezos.ToList();
-                    return response;
+                    return context.Rendezos.ToList();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    List<Rendezo> response = new List<Rendezo>();
-                    response.Add(new Rendezo { Id = -1, Nev = ex.Message });
-                    return response;
+                    return new List<Rendezo>();
                 }
             }
         }
-
-        // Rendezők DTO listázása
-        public static List<RendezoDTO> GetRendezosDTO()
+        public static List<RendezoDTO> GetRendezoDTO()
         {
             using (var context = new MovieContext())
             {
                 try
                 {
-                    var response = context.Rendezos.Select(r => new RendezoDTO
+                    var response = context.Rendezos.Select(f => new RendezoDTO
                     {
-                        Id = r.Id,
-                        Nev = r.Nev,
-                        Nemzetiseg = r.Nemzetiseg,
-                        SzulDatum = r.SzulDatum
+                        Id = f.Id,
+                        Nev = f.Nev,
+                        Nemzetiseg = f.Nemzetiseg,
+                        SzulDatum = f.SzulDatum,
                     }).ToList();
                     return response;
                 }
@@ -50,7 +44,7 @@ namespace Movie.Services
             }
         }
 
-        // Egyedi rendező lekérdezése ID alapján
+
         public static Rendezo GetRendezo(int id)
         {
             using (var context = new MovieContext())
@@ -63,29 +57,6 @@ namespace Movie.Services
                 catch
                 {
                     return new Rendezo { Id = 0 };
-                }
-            }
-        }
-
-        // Egyedi rendező DTO lekérdezése ID alapján
-        public static RendezoDTO? GetRendezoDTO(int id)
-        {
-            using (var context = new MovieContext())
-            {
-                try
-                {
-                    var response = context.Rendezos.Where(r => r.Id == id).Select(r => new RendezoDTO
-                    {
-                        Id = r.Id,
-                        Nev = r.Nev,
-                        Nemzetiseg = r.Nemzetiseg,
-                        SzulDatum = r.SzulDatum
-                    }).FirstOrDefault();
-                    return response;
-                }
-                catch
-                {
-                    return null;
                 }
             }
         }

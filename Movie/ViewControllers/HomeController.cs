@@ -25,19 +25,21 @@ namespace Movie.Controllers
             return View();
         }
 
-        // Filmek listázása DTO formátumban
         public IActionResult FilmekDTO()
         {
             return View(FilmService.GetFilmekDTO());
         }
 
-        // Borítókép megjelenítése adott film ID alapján
+        public IActionResult RendezoDTO()
+        {
+            return View(RendezoService.GetRendezoDTO());
+        }
+
         public IActionResult BoritokepView(int id)
         {
             return View(FilmService.GetBoritokep(id));
         }
 
-        // Film karbantartó nézet
         public async Task<IActionResult> FilmKarbantartas(int id)
         {
             await Task.Delay(500);
@@ -50,33 +52,15 @@ namespace Movie.Controllers
             {
                 ViewBag.Film = film;
             }
-            ViewBag.Rendezok = RendezoService.GetRendezos();
+            ViewBag.Rendezok = RendezoService.GetRendezok();
             ViewBag.Mufajok = MufajService.GetMufajok();
             return View(ViewBag);
         }
 
-        // Rendezõk listázása DTO formátumban
-        public IActionResult RendezokDTO()
-        {
-            return View(RendezoService.GetRendezosDTO());
-        }
-
-        // Egyedi rendezõ megjelenítése ID alapján
-        public IActionResult RendezoReszletek(int id)
-        {
-            var rendezo = RendezoService.GetRendezoDTO(id);
-            if (rendezo == null)
-            {
-                return NotFound($"A(z) {id} azonosítójú rendezõ nem található.");
-            }
-            return View(rendezo);
-        }
-
-        // Rendezõk karbantartó nézet
         public async Task<IActionResult> RendezoKarbantartas(int id)
         {
             await Task.Delay(500);
-            var rendezo = RendezoService.GetRendezo(id);
+            Rendezo rendezo = RendezoService.GetRendezo(id);
             if (rendezo == null)
             {
                 ViewBag.Rendezo = new Rendezo { Id = 0 };
@@ -85,6 +69,8 @@ namespace Movie.Controllers
             {
                 ViewBag.Rendezo = rendezo;
             }
+            ViewBag.Filmek = FilmService.GetFilmek();
+            ViewBag.Mufajok = MufajService.GetMufajok();
             return View(ViewBag);
         }
 

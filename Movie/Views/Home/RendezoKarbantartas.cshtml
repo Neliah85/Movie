@@ -1,30 +1,24 @@
 ﻿<script type="text/javascript">
-    function rendezoTarol() {
+
+
+
+
+
+      function rendezoTarol() {
         let body = {
             "Id": parseInt(document.getElementById("id").textContent),
             "Nev": document.getElementById("nev").value,
             "Nemzetiseg": document.getElementById("nemzetiseg").value,
-            "SzuletesiDatum": document.getElementById("szuletesiDatum").value
+            "SzulDatum": document.getElementById("szuldatum").value
         };
         let url = "https://localhost:7050/api/rendezo";
         if (body.Id != 0) {
             axios.put(url, body).then((response) => {
                 alert(response.data);
-                window.location.replace("../RendezokDTO");
-            }).catch((error) => {
-                alert(error);
-                window.location.replace("../RendezokDTO");
-            });
-        } else {
-            axios.post(url, body).then((response) => {
-                alert(response.data);
-                window.location.replace("../RendezokDTO");
-            }).catch((error) => {
-                alert(error);
-                window.location.replace("../RendezokDTO");
-            });
-        }
-    }
+
+    window.addEventListener('load', function () {
+    });
+
 </script>
 
 @{
@@ -32,12 +26,13 @@
 }
 <h1 style="text-align:center">@ViewData["Title"]</h1>
 
+
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form onsubmit="rendezoTarol(); return false;">
+            <form onsubmit="rendezoTarol()">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <label id="id" hidden>@((ViewBag.Rendezo as Rendezo).Id)</label>
                         <div class="form-floating mb-3">
                             <input id="nev"
@@ -55,15 +50,16 @@
                                    required />
                             <label for="nemzetiseg">Nemzetiség</label>
                         </div>
+
                         <div class="form-floating mb-3">
-                            <input id="szuletesiDatum"
-                                   type="date"
+                            <input id="szuldatum"
+                                   type="datetime"
                                    class="form-control rounded-3"
-                                   value="@((ViewBag.Rendezo as Rendezo).SzulDatum.ToString("yyyy-MM-dd"))"
-                                   required />
-                            <label for="szuletesiDatum">Születési dátum</label>
+                                   value="@((ViewBag.Rendezo as Rendezo).SzulDatum)" required />
+                            <label for="szuldatum">Születési dátum</label>
                         </div>
                     </div>
+
                 </div>
                 <button id="mentesGomb" class="w-100 mb-2 btn btn-primary btn-lg rounded-3">
                     Adatok mentése
