@@ -25,23 +25,26 @@ namespace Movie.Controllers
             return View();
         }
 
+        // Filmek listázása DTO formátumban
         public IActionResult FilmekDTO()
         {
             return View(FilmService.GetFilmekDTO());
         }
 
+        // Borítókép megjelenítése adott film ID alapján
         public IActionResult BoritokepView(int id)
         {
             return View(FilmService.GetBoritokep(id));
         }
 
+        // Film karbantartó nézet
         public async Task<IActionResult> FilmKarbantartas(int id)
         {
             await Task.Delay(500);
-            Film film= FilmService.GetFilm(id);
+            Film film = FilmService.GetFilm(id);
             if (film == null)
             {
-                ViewBag.Film=new Film { Id=0,IndexKep=new byte[0],Kep=new byte[0] };
+                ViewBag.Film = new Film { Id = 0, IndexKep = new byte[0], Kep = new byte[0] };
             }
             else
             {
@@ -49,6 +52,39 @@ namespace Movie.Controllers
             }
             ViewBag.Rendezok = RendezoService.GetRendezok();
             ViewBag.Mufajok = MufajService.GetMufajok();
+            return View(ViewBag);
+        }
+
+        // Rendezõk listázása DTO formátumban
+        public IActionResult RendezokDTO()
+        {
+            return View(RendezoService.GetRendezokDTO());
+        }
+
+        // Egyedi rendezõ megjelenítése ID alapján
+        public IActionResult RendezoReszletek(int id)
+        {
+            var rendezo = RendezoService.GetRendezoDTO(id);
+            if (rendezo == null)
+            {
+                return NotFound($"A(z) {id} azonosítójú rendezõ nem található.");
+            }
+            return View(rendezo);
+        }
+
+        // Rendezõk karbantartó nézet
+        public async Task<IActionResult> RendezoKarbantartas(int id)
+        {
+            await Task.Delay(500);
+            var rendezo = RendezoService.GetRendezo(id);
+            if (rendezo == null)
+            {
+                ViewBag.Rendezo = new Rendezo { Id = 0 };
+            }
+            else
+            {
+                ViewBag.Rendezo = rendezo;
+            }
             return View(ViewBag);
         }
 
