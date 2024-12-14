@@ -1,0 +1,14 @@
+﻿@using Movie.DTOs;
+@{
+    ViewData["Title"] = "Boritókép";
+}
+<h1 style="text-align:center">@ViewData["Title"]</h1>
+
+@if ((Model as Boritokep) != null)
+{
+    <img class="img-fluid img-thumbnail" src="@Program.ImageConverter((Model as Boritokep).Kep)" />
+}
+else
+{
+    <img style="margin-left:auto;margin-right:auto;display:block;" src="~/img/noimage.jpg" />
+}
