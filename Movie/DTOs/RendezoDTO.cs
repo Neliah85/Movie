@@ -5,6 +5,6 @@
         public int? Id { get; set; }
         public string? Nev { get; set; }
         public string? Nemzetiseg { get; set; }
-        public DateOnly? Szuletesidatum { get; set; }        
+        public DateTime? SzulDatum { get; set; }        
     }
 }

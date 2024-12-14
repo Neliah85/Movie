@@ -7,13 +7,13 @@ namespace Movie.Services
     public class RendezoService
     {
         // Rendezők listázása
-        public static List<Rendezo> GetRendezok()
+        public static List<Rendezo> GetRendezos()
         {
             using (var context = new MovieContext())
             {
                 try
                 {
-                    var response = context.Rendezok.ToList();
+                    var response = context.Rendezos.ToList();
                     return response;
                 }
                 catch (Exception ex)
@@ -26,18 +26,18 @@ namespace Movie.Services
         }
 
         // Rendezők DTO listázása
-        public static List<RendezoDTO> GetRendezokDTO()
+        public static List<RendezoDTO> GetRendezosDTO()
         {
             using (var context = new MovieContext())
             {
                 try
                 {
-                    var response = context.Rendezok.Select(r => new RendezoDTO
+                    var response = context.Rendezos.Select(r => new RendezoDTO
                     {
                         Id = r.Id,
                         Nev = r.Nev,
                         Nemzetiseg = r.Nemzetiseg,
-                        Szuletesidatum = r.Szuletesidatum
+                        SzulDatum = r.SzulDatum
                     }).ToList();
                     return response;
                 }
@@ -57,7 +57,7 @@ namespace Movie.Services
             {
                 try
                 {
-                    var response = context.Rendezok.FirstOrDefault(r => r.Id == id);
+                    var response = context.Rendezos.FirstOrDefault(r => r.Id == id);
                     return response;
                 }
                 catch
@@ -74,12 +74,12 @@ namespace Movie.Services
             {
                 try
                 {
-                    var response = context.Rendezok.Where(r => r.Id == id).Select(r => new RendezoDTO
+                    var response = context.Rendezos.Where(r => r.Id == id).Select(r => new RendezoDTO
                     {
                         Id = r.Id,
                         Nev = r.Nev,
                         Nemzetiseg = r.Nemzetiseg,
-                        Szuletesidatum = r.Szuletesidatum
+                        SzulDatum = r.SzulDatum
                     }).FirstOrDefault();
                     return response;
                 }

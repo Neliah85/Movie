@@ -50,7 +50,7 @@ namespace Movie.Controllers
             {
                 ViewBag.Film = film;
             }
-            ViewBag.Rendezok = RendezoService.GetRendezok();
+            ViewBag.Rendezok = RendezoService.GetRendezos();
             ViewBag.Mufajok = MufajService.GetMufajok();
             return View(ViewBag);
         }
@@ -58,7 +58,7 @@ namespace Movie.Controllers
         // Rendezõk listázása DTO formátumban
         public IActionResult RendezokDTO()
         {
-            return View(RendezoService.GetRendezokDTO());
+            return View(RendezoService.GetRendezosDTO());
         }
 
         // Egyedi rendezõ megjelenítése ID alapján
